@@ -1,17 +1,21 @@
 sudo: false
 install: true
 
-language: erlang
-otp_release:
-  - 19.0
+language: elixir
+elixir: '1.6.4'
+otp_release: '20.0'
 
 before_script:
   - wget https://s3.amazonaws.com/rebar3/rebar3
   - chmod +x rebar3
 
 env: PATH=$PATH:.
+env: BASE=.
 script:
+  - mix local.hex --force
+  - mix local.rebar --force
   - cd hello_world && rebar3 eunit
+  - cd ../hello_world_elixir && mix deps.get && mix test
 
 cache:
   directories:
